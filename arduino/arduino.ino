@@ -5,7 +5,6 @@
 const char ssid[] = "Ma";
 const char pass[] = "jlmjlmjlm";
 
-const char ap[] = "videoprojecteur";
 const char mosquito[] = "test.mosquitto.org";
 
 WiFiClient net;
@@ -23,7 +22,7 @@ void connect() {
   }
   Serial.println("\nconnected!");
   
-  client.subscribe("/videoprojecteur");
+  client.subscribe("videoprojecteur");
 }
 
 void messageReceived(String &topic, String &ip) {
@@ -31,8 +30,8 @@ void messageReceived(String &topic, String &ip) {
   delay(1000);
 
   //Envoi OK serveur
-  client.publish("/videoprojecteur", "ok");
-  client.unsubscribe(ap);
+  client.publish("videoprojecteur/reponse", "ok");
+  client.unsubscribe("videoprojecteur");
   delay(1000);
 
   //Disconnect AP
@@ -40,7 +39,7 @@ void messageReceived(String &topic, String &ip) {
   delay(1000);
 
   //Connexion AP
-  WiFi.begin(ap,"");
+  WiFi.begin("videoprojecteur","");
   Serial.print("checking wifi...");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print("."); delay(1000);
